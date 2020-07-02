@@ -1,0 +1,15 @@
+---
+
+- hosts: slurmserver
+  remote_user: root
+  tags: slurm
+  roles:
+    - name: slurm
+      slurm_type_of_node: 'front'
+
+- hosts: slurmworker
+  remote_user: root
+  tags: slurm
+  roles:
+    - name: slurm
+      slurm_type_of_node: 'wn'

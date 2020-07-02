@@ -1,0 +1,28 @@
+---
+  - name: Create munge key
+    shell: create-munge-key < /dev/null creates=/etc/munge/munge.key
+    when: not munge_key.stat.exists and munge_key_password == ''
+    notify: restart munge
+
+  - name: Generate munge key with password
+    shell: echo -n "{{ munge_key_password }}" | sha512sum | cut -d' ' -f1 
+    when: munge_key_password != ''
+    register: key_content
+    changed_when: false
+
+  - name: Create munge.key file with password
+    copy: content="{{ key_content.stdout }}" dest=/etc/munge/munge.key mode=0400 owner=munge
+    when: munge_key_password != ''
+
+  - name: copy munge.key from server to local cache
+    fetch:
+      src: "/etc/munge/munge.key"
+      dest: "{{ local_slurm_cache }}/munge.key"
+      flat: yes
+
+  - name: Restart Munge service
+    service: name=munge state=restarted
+    when: not munge_key.stat.exists or munge_key_password != ''
+
+  - name: Start munge service
+    service: name=munge state=started

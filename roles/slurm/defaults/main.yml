@@ -1,0 +1,25 @@
+---
+# SLURM version to install (in case of RH systems)
+slurm_version: 16.05.11
+# Type of node to install: front or wn
+slurm_type_of_node: front
+# Name of the SLURM server
+slurm_server_name: slurmserver
+# IP address of the SLURM server
+slurm_server_ip: 127.0.0.1
+# List of the name of the WNs
+slurm_wn_nodenames: []
+# Number of CPUs of the WNs
+slurm_wn_cpus: 1
+# Default user for ssh and slurm management
+slurm_user: slurm
+slurm_user_id: 5001
+# Templates files
+templates: ""
+# Number of Maximun nodes
+max_number_of_nodes: 3
+#### OLD Worker node hostnames
+#### OLDworker_nodes: [slurmworker1]
+# Local directory to store munge and slurm server files
+local_slurm_cache: ./slurm-cache
+

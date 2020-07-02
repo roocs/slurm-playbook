@@ -1,0 +1,47 @@
+---
+
+  - name: remove old cache
+    local_action: command rm -fr "{{ local_slurm_cache }}" 
+    when: munge_type_of_node == "front"
+
+  - name: check local slurm-cache exists
+    local_action: command mkdir -p "{{ local_slurm_cache }}"
+
+  - name: Start Munge service
+    service: name=munge state=started
+    register: munge_installed
+    ignore_errors: yes
+
+  - name: Yum install epel
+    yum: name=epel-release
+
+  - name: Yum install munge
+    yum: name=munge,munge-devel
+
+  - block:
+    - name: Yum install packages for Centos 6
+      yum: name=libselinux-python
+
+    # Fix for centos 6 due to socket errors
+    - name: Create munge config file
+      copy:
+        content: 'OPTIONS="--force"'
+        dest: /etc/default/munge
+        force: no
+        group: root
+        owner: root
+        mode: 0644
+    when: munge_installed is failed and ansible_distribution_major_version|int == 6
+
+  - name: Register munge key
+    stat: path=/etc/munge/munge.key
+    register: munge_key
+
+  - name: set munge log directory access rights
+    file: path=/var/log/munge state=directory mode=0700
+
+  - name: set log directory access rights
+    file: path=/var/log state=directory mode=0755
+
+  - name: Include "{{munge_type_of_node}}" munge recipe
+    include: "{{munge_type_of_node}}.yaml"

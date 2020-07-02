@@ -1,0 +1,104 @@
+---
+
+  # Add a fast check to speed reconfiguration
+  - set_fact: SRUN_PATH=/usr/bin/srun
+
+  - stat: path={{ SRUN_PATH }}
+    register: slurm_installed
+
+  - name: make local slurm cache directory
+    local_action: command mkdir -p {{ local_slurm_cache }}
+
+  - name: Install epel repo
+    yum: name=epel-release,yum-priorities
+
+#  - name: Install JASMIN repo
+#    yum: 
+#      name: http://yumit.jc.rl.ac.uk/yum/jasmin/7/RPMS/jasmin-repo-1.2-2.el7.noarch.rpm
+#      state: present
+
+  - stat: path=/etc/yum.repos.d/ral-tools.repo
+    register: raltools_enabled
+
+  - name: make sure raltools repo is available
+    yum: name=http://yumit.esc.rl.ac.uk/raltools/7 state=present
+    when: (not raltools_enabled.stat.exists) and (not download_remote_rpms)
+
+  - name: Install rpm slurm packages (common) via Yum
+    yum:
+      name:
+        - "slurm-{{slurm_version}}"
+        - "slurm-contribs-{{slurm_version}}"
+        - "slurm-devel-{{slurm_version}}"
+        - "slurm-example-configs-{{slurm_version}}"
+        - "slurm-openlava-{{slurm_version}}"
+        - "slurm-perlapi-{{slurm_version}}"
+        - "slurm-slurmctld-{{slurm_version}}"
+        - "slurm-slurmd-{{slurm_version}}"
+      state: present
+    when: (not slurm_installed.stat.exists) and (not download_remote_rpms)
+
+  - name: Define a list of RPMs to download and install when using remotely
+    set_fact:
+      rpm_files: >
+        ["slurm-{{slurm_version}}-1.el7.x86_64.rpm",
+         "slurm-contribs-{{slurm_version}}-1.el7.x86_64.rpm",
+         "slurm-devel-{{slurm_version}}-1.el7.x86_64.rpm",
+         "slurm-example-configs-{{slurm_version}}-1.el7.x86_64.rpm",
+         "slurm-openlava-{{slurm_version}}-1.el7.x86_64.rpm",
+         "slurm-perlapi-{{slurm_version}}-1.el7.x86_64.rpm",
+         "slurm-slurmctld-{{slurm_version}}-1.el7.x86_64.rpm",
+         "slurm-slurmd-{{slurm_version}}-1.el7.x86_64.rpm",
+         "sct-nvidia-builder-nvml-418.87.01-1.el7.x86_64.rpm"]
+    when: (not slurm_installed.stat.exists) and (download_remote_rpms)
+
+  - name: Download RPMs to /tmp/
+    get_url:
+      url:  "{{ rpm_base_url }}/{{ item }}"
+      dest: "/tmp/{{ item }}"
+    with_items:
+      - "{{ rpm_files }}"
+    when: (not slurm_installed.stat.exists) and (download_remote_rpms)
+
+  - name: Install RPMs from downloaded files
+    yum:
+      name: "/tmp/{{ item }}"
+    with_items:
+      - "{{ rpm_files }}"
+    when: (not slurm_installed.stat.exists) and (download_remote_rpms)
+
+  - name: Remove downloaded RPMs from /tmp/
+    file:
+      path: "/tmp/{{ item }}"
+      state: absent
+    with_items:
+      - "{{ rpm_files }}"
+    when: (not slurm_installed.stat.exists) and (download_remote_rpms)
+
+  - name: copy hostname script to nodes
+    copy:
+      src: hostname_script
+      dest: /root/hostname.sh
+      owner: root
+      group: root
+      mode: '0640'
+
+  - name: Set SLURM conf file path as fact RH
+    set_fact:
+      SLURM_CONF: "/etc/slurm/slurm.conf"
+      SLURM_SERVICE: "slurm"
+      SLURM_DAEMON: "slurm"
+
+  - name: create slurm user and group
+    user: name="{{slurm_user}}" shell=/bin/bash system=yes uid="{{ slurm_user_id }}"
+
+  - name: create folders used by SLURM and set slurm owner
+    file: path={{item}} state=directory owner=slurm group=slurm
+    with_items:
+      - /var/spool/slurm
+      - /var/log/slurm
+      - /var/slurm/checkpoint
+      - /etc/slurm
+
+  - name: Include "{{slurm_type_of_node}}" SLURM recipe
+    include: "{{slurm_type_of_node}}.yaml"

@@ -1,0 +1,3 @@
+- name: restart munge
+  service: name=munge state=restarted
+  when: not munge_key.stat.exists

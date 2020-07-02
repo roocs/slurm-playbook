@@ -1,0 +1,60 @@
+---
+  - name: Copy 'is_cluster_ready' file
+    copy: dest=/bin/is_cluster_ready src=is_cluster_ready mode=0755 force=no
+
+#  - name: Update the /etc/hosts file if vagrant VM
+#    shell: |
+#        for item in {{ slurm_wn_nodenames }}; do
+#          grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
+#        done
+#    when: ((inventory_hostname in wps_test_nodes) and (inventory_hostname != slurm_server_ip))
+
+  - name: Create the slurm.conf file
+    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
+
+  - name: Set blcr config in SLURM
+    lineinfile: dest={{ SLURM_CONF }} regexp='#CheckpointType=' line='CheckpointType=checkpoint/blcr' state=present
+    when: "'blcr' in templates"
+
+  - name: loop through
+    set_fact:
+      nodes_csv: "{{ slurm_wn_nodenames | join(',') }}"
+    when: (slow_node is not defined)
+
+  - name: configure compute nodes section of slurm.conf
+    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{ nodes_csv }} CPUs={{slurm_wn_cpus}} State=UNKNOWN' state=present
+
+  - name: configure partition section of slurm.conf - fast-only
+    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=fast Nodes={{ nodes_csv }} Default=YES MaxTime=INFINITE State=UP' state=present
+    when: (slow_node is not defined)
+
+  - name: configure partition section of slurm.conf - fast partition
+    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=fast Nodes={{ fast_nodes }} Default=YES MaxTime=INFINITE State=UP' state=present
+    when: (fast_nodes is defined)
+
+  - name: configure partition section of slurm.conf - slow partition
+    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=slow Nodes={{ slow_node }} Default=YES MaxTime=INFINITE State=UP' state=present
+    when: (slow_node is defined)
+
+  - name: Start SLURM service
+    become: true
+    become_user: slurm
+    command: slurmctld
+
+  - name: Ensure slurmd is not running in front node
+    shell: pgrep slurmd && killall slurmd
+    ignore_errors: yes
+
+  - name: Reconfigure SLURM
+    become: true
+    become_user: slurm
+    command: scontrol reconfigure
+
+  - name: allow the slurm user to acces the slurm logs
+    file: path={{ slurmctld_log }} mode=0644
+
+  - name: copy the slurm.conf from server to local cache
+    fetch:
+      src: "{{ SLURM_CONF }}"
+      dest: "{{ local_slurm_cache }}/slurm.conf"
+      flat: yes

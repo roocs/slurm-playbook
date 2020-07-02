@@ -1,0 +1,19 @@
+---
+
+- name: copy /etc/hosts to vagrant VMs
+  hosts: all
+  tasks:
+    - name: add to /etc/hosts file 
+      lineinfile:
+        path: /etc/hosts
+        line: '{{ for_etc_hosts }}'
+
+    - name: copy across id_rsa file
+      copy:
+        src: /root/.ssh/id_rsa
+        dest: /root/.ssh/id_rsa
+        owner: root
+        group: root
+        mode: '0400'
+
+

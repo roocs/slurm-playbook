@@ -1,0 +1,2 @@
+dependencies:
+  - { role: 'munge', munge_type_of_node: "{{ slurm_type_of_node }}" }
