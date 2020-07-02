@@ -44,19 +44,19 @@ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventories/vagrant-cluster 
 Run the playbook, maybe with the environment variable at the start:
 
 ```
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventories/vagrant-single playbook-cluster.yml
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventories/vagrant-cluster playbook-cluster.yml
 ```
 
+## Test Slurm is working
 
-...
-
-## Testing Slurm is working
-
-You can test slurm is working with:
+You can test slurm is working on the master or worker nodes, using:
 
 ```
 squeue # to view the queue
+
 sbatch /root/hostname.sh # to run a job
-squeue # to see if it is running
+sbatch /root/hostname.sh ; sbatch /root/hostname.sh  # to run a couple more jobs
+
+squeue # to see if they are running/completing
 ```
 
