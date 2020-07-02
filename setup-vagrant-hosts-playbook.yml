@@ -1,0 +1,23 @@
+---
+
+- name: copy /etc/hosts to vagrant VMs
+  hosts: all
+  tasks:
+    - name: add to /etc/hosts file 
+      lineinfile:
+        path: /etc/hosts
+        line: '{{ item }}'
+      with_items:
+        - '192.168.50.44 slurmmaster slurmmaster.localdomain'
+        - '192.168.50.45 slurmbatch1 slurmbatch1.localdomain'
+        - '192.168.50.46 slurmbatch2 slurmbatch2.localdomain'
+
+#    - name: copy across id_rsa file
+#      copy:
+#        src: /root/.ssh/id_rsa
+#        dest: /root/.ssh/id_rsa
+#        owner: root
+#        group: root
+#        mode: '0400'
+
+
