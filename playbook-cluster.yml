@@ -1,0 +1,17 @@
+---
+
+- hosts: slurmserver
+  remote_user: root
+  tags: slurm
+  roles:
+    - name: slurm
+      slurm_type_of_node: 'front'
+      slurm_wn_nodenames: ['slurmbatch1', 'slurmbatch2']
+
+- hosts: slurmworker
+  remote_user: root
+  tags: slurm
+  roles:
+    - name: slurm
+      slurm_type_of_node: 'wn'
+      slurm_wn_nodenames: ['slurmbatch1', 'slurmbatch2']

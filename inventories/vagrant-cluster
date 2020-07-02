@@ -1,7 +1,7 @@
 [all]
-192.168.50.44 for_etc_hosts="192.168.50.44 slurmmaster slurmmaster.localdomain"
-192.168.50.45 for_etc_hosts="192.168.50.45 slurmbatch1 slurmbatch1.localdomain"
-192.168.50.46 for_etc_hosts="192.168.50.46 slurmbatch2 slurmbatch2.localdomain"
+192.168.50.44
+192.168.50.45
+192.168.50.4
 
 [slurmserver]
 192.168.50.44 

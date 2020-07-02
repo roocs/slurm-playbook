@@ -10,10 +10,10 @@
   - name: check local slurm cache directory exists
     local_action: stat path="{{ local_slurm_cache }}/munge.key"
 
-  - name: Wait for slurm server to have config file
-    wait_for:
-      path: /etc/munge/munge.key
-    delegate_to: "{{ slurm_server_name }}"
+#  - name: Wait for slurm server to have munge key file
+#    wait_for:
+#      path: /etc/munge/munge.key
+#    delegate_to: "{{ slurm_server_name }}"
 
   - name: copy munge.key file to the slurm worker node
     copy:
