@@ -6,7 +6,7 @@ Ansible playbook for Slurm
 
 Create an inventory file, copying structure of:
 
-`inventories/vagrant-single-server`
+`inventories/vagrant-single`
 
 Create a host_vars file named the same as the IP of the single server, e.g.:
 
@@ -14,9 +14,32 @@ Create a host_vars file named the same as the IP of the single server, e.g.:
 
 Run the playbook:
 
-`ansible-playbook -i inventories/vagrant-single-server playbook.yml`
+`ansible-playbook -i inventories/vagrant-single playbook-single.yml`
 
 ## Cluster installation
+
+Create an inventory file, copying structure of:
+
+`inventories/vagrant-cluster`
+
+Create a host_vars file named the same as the IP of the master server, e.g.:
+
+`host_vars/192.168.50.44`
+
+Edit the playbook `playbook-cluster.yml` to set the list of worker nodes, e.g.:
+
+```
+$ grep nodenames playbook-cluster.yml
+      slurm_wn_nodenames: ['slurmbatch1', 'slurmbatch2']
+      slurm_wn_nodenames: ['slurmbatch1', 'slurmbatch2']
+```
+
+Run the playbook, maybe with the environment variable at the start:
+
+```
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventories/vagrant-single playbook-cluster.yml
+```
+
 
 ...
 
