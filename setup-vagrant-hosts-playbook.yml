@@ -2,8 +2,9 @@
 
 - name: copy /etc/hosts to vagrant VMs
   hosts: all
+  become: yes
   tasks:
-    - name: add to /etc/hosts file 
+    - name: add to /etc/hosts file
       lineinfile:
         path: /etc/hosts
         line: '{{ item }}'
@@ -19,5 +20,3 @@
 #        owner: root
 #        group: root
 #        mode: '0400'
-
-

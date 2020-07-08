@@ -8,7 +8,7 @@
 #    when: not munge_key.stat.exists
 
   - name: check local slurm cache directory exists
-    local_action: stat path="{{ local_slurm_cache }}/munge.key"
+    stat: path="{{ local_slurm_cache }}/munge.key"
 
 #  - name: Wait for slurm server to have munge key file
 #    wait_for:

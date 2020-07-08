@@ -7,13 +7,13 @@
     register: slurm_installed
 
   - name: make local slurm cache directory
-    local_action: command mkdir -p {{ local_slurm_cache }}
+    command: mkdir -p {{ local_slurm_cache }}
 
   - name: Install epel repo
     yum: name=epel-release,yum-priorities
 
 #  - name: Install JASMIN repo
-#    yum: 
+#    yum:
 #      name: http://yumit.jc.rl.ac.uk/yum/jasmin/7/RPMS/jasmin-repo-1.2-2.el7.noarch.rpm
 #      state: present
 

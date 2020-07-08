@@ -1,1 +1,3 @@
 slurm-cache
+.vagrant
+*.log
