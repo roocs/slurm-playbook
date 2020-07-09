@@ -3,17 +3,17 @@
   - service: name=firewalld state=stopped
     when: ansible_distribution_major_version|int >= 7
     ignore_errors: yes
-    
-  - name: check local slurm cache directory exists
-    local_action: stat path="{{ local_slurm_cache }}/slurm.conf"
 
-#  - name: Wait for slurm server to have config file 
+  - name: check local slurm cache directory exists
+    stat: path="{{ local_slurm_cache }}/slurm.conf"
+
+#  - name: Wait for slurm server to have config file
 #    wait_for:
 #      path: /etc/slurm/slurm.conf
 #    delegate_to: "{{ slurm_server_name }}"
 
   - name: copy slurm.conf file from the frontend
-    copy: 
+    copy:
       src: "{{ local_slurm_cache }}/slurm.conf"
       dest: /etc/slurm/slurm.conf
       owner: 'slurm'

@@ -1,14 +1,16 @@
 ---
 
-- hosts: slurmserver
-  remote_user: root
+- hosts: all
+  # remote_user: root
+  become: yes
   tags: slurm
   roles:
     - name: slurm
       slurm_type_of_node: 'front'
 
-- hosts: slurmworker
-  remote_user: root
+- hosts: all
+  # remote_user: root
+  become: yes
   tags: slurm
   roles:
     - name: slurm

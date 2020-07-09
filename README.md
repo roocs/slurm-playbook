@@ -60,3 +60,13 @@ sbatch /root/hostname.sh ; sbatch /root/hostname.sh  # to run a couple more jobs
 squeue # to see if they are running/completing
 ```
 
+## Test with vagrant
+
+Use the `Vagrantfile` to setup up a cluster:
+
+```
+$ vagrant up
+$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-cluster setup-vagrant-hosts-playbook.yml
+$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-cluster playbook-cluster.yml
+$ vagrant ssh slurmmaster
+```

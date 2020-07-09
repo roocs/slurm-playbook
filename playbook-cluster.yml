@@ -1,7 +1,8 @@
 ---
 
 - hosts: slurmserver
-  remote_user: root
+  # remote_user: root
+  become: yes
   tags: slurm
   roles:
     - name: slurm
@@ -9,7 +10,8 @@
       slurm_wn_nodenames: ['slurmbatch1', 'slurmbatch2']
 
 - hosts: slurmworker
-  remote_user: root
+  # remote_user: root
+  become: yes
   tags: slurm
   roles:
     - name: slurm
