@@ -1,12 +1,5 @@
 ---
 
-  - name: remove old cache
-    command: rm -fr "{{ local_slurm_cache }}"
-    when: munge_type_of_node == "front"
-
-  - name: check local slurm-cache exists
-    command: mkdir -p "{{ local_slurm_cache }}"
-
   - name: Start Munge service
     service: name=munge state=started
     register: munge_installed

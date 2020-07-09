@@ -1,7 +1,11 @@
 ---
 
+- hosts: all
+  become: yes
+  roles:
+    - name: vm_config
+
 - hosts: slurmserver
-  # remote_user: root
   become: yes
   tags: slurm
   roles:
@@ -10,7 +14,6 @@
       slurm_wn_nodenames: ['slurmbatch1', 'slurmbatch2']
 
 - hosts: slurmworker
-  # remote_user: root
   become: yes
   tags: slurm
   roles:

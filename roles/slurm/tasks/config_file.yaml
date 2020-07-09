@@ -1,0 +1,29 @@
+---
+
+  - name: Create the slurm.conf file
+    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
+
+  - name: Set blcr config in SLURM
+    lineinfile: dest={{ SLURM_CONF }} regexp='#CheckpointType=' line='CheckpointType=checkpoint/blcr' state=present
+    when: "'blcr' in templates"
+
+  - name: loop through
+    set_fact:
+      nodes_csv: "{{ slurm_wn_nodenames | join(',') }}"
+    when: (slow_node is not defined)
+
+  - name: configure compute nodes section of slurm.conf
+    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{ nodes_csv }} CPUs={{slurm_wn_cpus}} State=UNKNOWN' state=present
+
+  - name: configure partition section of slurm.conf - fast-only
+    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=fast Nodes={{ nodes_csv }} Default=YES MaxTime=INFINITE State=UP' state=present
+    when: (slow_node is not defined)
+
+  - name: configure partition section of slurm.conf - fast partition
+    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=fast Nodes={{ fast_nodes }} Default=YES MaxTime=INFINITE State=UP' state=present
+    when: (fast_nodes is defined)
+
+  - name: configure partition section of slurm.conf - slow partition
+    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=slow Nodes={{ slow_node }} Default=YES MaxTime=INFINITE State=UP' state=present
+    when: (slow_node is defined)
+

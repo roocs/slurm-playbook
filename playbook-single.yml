@@ -1,7 +1,11 @@
 ---
 
 - hosts: all
-  # remote_user: root
+  become: yes
+  roles:
+    - name: vm_config
+
+- hosts: all
   become: yes
   tags: slurm
   roles:
@@ -9,7 +13,6 @@
       slurm_type_of_node: 'front'
 
 - hosts: all
-  # remote_user: root
   become: yes
   tags: slurm
   roles:

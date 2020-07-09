@@ -35,11 +35,8 @@ $ grep nodenames playbook-cluster.yml
 ```
 
 !WARNING!: on a Vagrant cluster, you might need to edit the `/etc/hosts` files on each server.
-If so, edit the playbook `setup-vagrant-hosts-playbook.yml` and run it as:
 
-```
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventories/vagrant-cluster setup-vagrant-hosts-playbook.yml
-```
+You must edit the `host_vars/<your_host>` file for this.
 
 Run the playbook, maybe with the environment variable at the start:
 

@@ -10,10 +10,6 @@ slurm_wn_cpus: 1
 slurm_user: slurm
 slurm_user_id: 5001
 
-# Local directory to store munge and slurm server files
-# - copied from master server back to deployment host and shared with worker nodes
-local_slurm_cache: ./slurm-cache
-
 # Slurm log file locations
 slurmctld_log: /var/log/slurm/slurmctld.log
 slurmd_log: /var/log/slurm/slurmd.log
@@ -21,3 +17,5 @@ slurmd_log: /var/log/slurm/slurmd.log
 # Flag to download remote RPMs
 download_remote_rpms: true 
 rpm_base_url: http://home.badc.rl.ac.uk/astephens/rpms/
+
+

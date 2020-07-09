@@ -18,8 +18,4 @@ slurm_user_id: 5001
 templates: ""
 # Number of Maximun nodes
 max_number_of_nodes: 3
-#### OLD Worker node hostnames
-#### OLDworker_nodes: [slurmworker1]
-# Local directory to store munge and slurm server files
-local_slurm_cache: ./slurm-cache
 
