@@ -1,0 +1,23 @@
+all:
+  children:
+    all_servers:
+      hosts:
+        192.168.50.44:
+        192.168.50.45:
+        192.168.50.46:
+    slurmserver:
+      hosts:
+        192.168.50.44:
+    slurmworker:
+      hosts:
+        192.168.50.45:
+        192.168.50.46:
+  vars:
+    slurm_wn_cpus: 1
+    slurm_server_name: 'slurmmaster'
+    slurm_server_ip: '192.168.50.44'
+    slurm_wn_nodenames: ['slurmbatch1', 'slurmbatch2']
+    etc_hosts_entries: ['192.168.50.44 slurmmaster slurmmaster.localdomain',
+                        '192.168.50.45 slurmbatch1 slurmbatch1.localdomain',
+                        '192.168.50.46 slurmbatch2 slurmbatch2.localdomain']
+

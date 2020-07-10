@@ -1,18 +1,18 @@
 ---
 
-- hosts: all
+- hosts: all_servers
   become: yes
   roles:
     - name: vm_config
 
-- hosts: all
+- hosts: slurmserver
   become: yes
   tags: slurm
   roles:
     - name: slurm
       slurm_type_of_node: 'front'
 
-- hosts: all
+- hosts: slurmworker
   become: yes
   tags: slurm
   roles:
