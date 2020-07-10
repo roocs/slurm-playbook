@@ -14,12 +14,6 @@
     copy: content="{{ key_content.stdout }}" dest=/etc/munge/munge.key mode=0400 owner=munge
     when: munge_key_password != ''
 
-#  - name: copy munge.key from server to local cache
-#    fetch:
-#      src: "/etc/munge/munge.key"
-#      dest: "{{ fetched_munge_key }}"
-#      flat: yes
-
   - name: Restart Munge service
     service: name=munge state=restarted
     when: not munge_key.stat.exists or munge_key_password != ''
