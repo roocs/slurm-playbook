@@ -1,10 +1,15 @@
 ---
 
-  - name: synchronise the munge.key from master node to the worker node (rsync push)
-    synchronize:
-      src: "/etc/munge/munge.key"
+  - name: check local slurm cache directory exists
+    stat: path="{{ local_slurm_cache }}/munge.key"
+
+  - name: copy munge.key file to the slurm worker node
+    copy:
+      src: "{{ local_slurm_cache }}/munge.key"
       dest: "/etc/munge/munge.key"
-    delegate_to: "{{ slurm_server_name }}"
+      owner: munge
+      group: munge
+      mode: '0400'
 
   - name: Restart Munge service
     service: name=munge state=restarted

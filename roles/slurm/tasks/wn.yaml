@@ -7,6 +7,17 @@
   - name: Include slurm config recipe
     include: "config_file.yaml"
 
+  - name: check local slurm cache directory exists
+    stat: path="{{ local_slurm_cache }}/slurm.conf"
+
+  - name: copy slurm.conf file from the frontend
+    copy:
+      src: "{{ local_slurm_cache }}/slurm.conf"
+      dest: /etc/slurm/slurm.conf
+      owner: 'slurm'
+      group: 'slurm'
+      mode: '0644'
+
   - name: Start Slurm Daemon
     command: slurmd
 
@@ -15,4 +26,3 @@
 
   - name: allow the slurm user to acces the slurm logs
     file: path={{ slurmd_log }} mode=0644
-

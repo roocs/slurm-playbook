@@ -5,6 +5,12 @@
   - name: Include slurm config recipe
     include: "config_file.yaml"
 
+  - name: copy the slurm.conf from server to local cache
+    fetch:
+      src: "{{ SLURM_CONF }}"
+      dest: "{{ local_slurm_cache }}/slurm.conf"
+      flat: yes
+
   - name: Start SLURM service
     become: true
     become_user: slurm
@@ -19,6 +25,5 @@
     become_user: slurm
     command: scontrol reconfigure
 
-  - name: allow the slurm user to acces the slurm logs
+  - name: allow the slurm user to access the slurm logs
     file: path={{ slurmctld_log }} mode=0644
-

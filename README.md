@@ -27,9 +27,6 @@ Create an inventory file, copying structure of:
 
 The playbook attempts to do this for you.
 
-!WARNING!: There is a task that uses `rsync` to synchronise the munge key file
-from the slurm server to the slurm worker nodes. This will only work is passwordless
-SSH is possible from the slurm server to the worker nodes.
 
 ## Test Slurm is working
 
@@ -50,7 +47,6 @@ Use the `Vagrantfile` to setup up a cluster:
 
 ```
 $ vagrant up
-$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-cluster setup-vagrant-hosts-playbook.yml
-$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-cluster playbook-cluster.yml
+$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-cluster.yml playbook.yml
 $ vagrant ssh slurmmaster
 ```

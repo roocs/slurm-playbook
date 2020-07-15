@@ -8,13 +8,3 @@
     - "{{ etc_hosts_entries }}"
   when:
     - (etc_hosts_entries is defined)
-
-- name: copy across id_rsa file
-  copy:
-    src:  /root/.ssh/id_rsa
-    dest: /root/.ssh/id_rsa
-    owner: root
-    group: root
-    mode: '0400'
-  when:
-    - (etc_hosts_entries is defined)
