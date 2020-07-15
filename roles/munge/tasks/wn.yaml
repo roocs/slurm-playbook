@@ -1,11 +1,16 @@
 ---
 
-  - name: check local slurm cache directory exists
-    stat: path="{{ local_slurm_cache }}/munge.key"
+  - name: check local copy of munge key from front server exists
+    local_action: stat path="{{ local_munge_key }}"
+    register: stat_local_munge_key
+
+  - name: fail if local munge key does not exist
+    fail: msg="Failed because local munge key does not exist on local server"
+    when: not stat_local_munge_key.stat.exists
 
   - name: copy munge.key file to the slurm worker node
     copy:
-      src: "{{ local_slurm_cache }}/munge.key"
+      src: "{{ local_munge_key }}"
       dest: "/etc/munge/munge.key"
       owner: munge
       group: munge
@@ -17,3 +22,6 @@
 
   - name: Make sure the munge service is started
     service: name=munge state=started
+
+  - name: remove the local copy of the munge key file
+    local_action: command rm -f "{{ local_munge_key }}"

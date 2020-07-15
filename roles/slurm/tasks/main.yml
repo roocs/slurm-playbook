@@ -6,9 +6,6 @@
   - stat: path={{ SRUN_PATH }}
     register: slurm_installed
 
-  - name: make local slurm cache directory
-    command: mkdir -p {{ local_slurm_cache }}
-
   - name: Install epel repo
     yum: name=epel-release,yum-priorities
 

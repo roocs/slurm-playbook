@@ -17,7 +17,7 @@
   - name: copy munge.key from server to local cache
     fetch:
       src: "/etc/munge/munge.key"
-      dest: "{{ local_slurm_cache }}/munge.key"
+      dest: "{{ local_munge_key }}"
       flat: yes
 
   - name: Restart Munge service
