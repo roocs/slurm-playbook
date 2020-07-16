@@ -10,9 +10,9 @@ slurm_wn_cpus: 1
 slurm_user: slurm
 slurm_user_id: 5001
 
-# Local path to copy across munge key to, so it can be copied from 
+# Local path to copy across munge key to, so it can be copied from
 # the master server and then copied to the worker nodes
-local_munge_key: /tmp/tmp_munge_key
+local_munge_key: .local_cache/tmp_munge_key
 
 # Slurm log file locations
 slurmctld_log: /var/log/slurm/slurmctld.log
