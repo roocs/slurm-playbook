@@ -14,3 +14,7 @@
 
   - name: Make sure the munge service is started
     service: name=munge state=started
+
+  - name: remove the local copy of the munge key file
+    local_action: command rm -f "{{ local_munge_key }}"
+    ignore_errors: yes
