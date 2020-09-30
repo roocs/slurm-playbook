@@ -5,14 +5,17 @@
   - name: Include slurm config recipe
     include: "config_file.yaml"
 
-  - name: Start SLURM service
-    become: true
-    become_user: slurm
-    command: slurmctld
+  - name: Start SLURM service in front node
+    service:
+      name: slurmctld
+      enabled: yes
+      state: restarted
 
   - name: Ensure slurmd is not running in front node
-    shell: pgrep slurmd && killall slurmd
-    ignore_errors: yes
+    service:
+      name: slurmd
+      enabled: no
+      state: stopped
 
   - name: Reconfigure SLURM
     become: true

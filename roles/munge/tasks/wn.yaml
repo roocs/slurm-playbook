@@ -13,7 +13,7 @@
     when: not munge_key.stat.exists
 
   - name: Make sure the munge service is started
-    service: name=munge state=started
+    service: name=munge enabled=yes state=started
 
   - name: remove the local copy of the munge key file
     local_action: command rm -f "{{ local_munge_key }}"
