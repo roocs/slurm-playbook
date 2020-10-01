@@ -50,3 +50,21 @@ $ vagrant up
 $ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-cluster.yml playbook.yml
 $ vagrant ssh slurmmaster
 ```
+
+## Firewall changes required 
+
+If the firewall is not automatically opened in iptables then you will need these rules:
+
+ 1. On the master node:
+
+```
+# Slurm ports
+-A INPUT                                       -p tcp -m multiport --dports 6817,6818      -j ACCEPT
+```
+
+ 2. On the worker nodes:
+
+```
+# Slurm ports
+-A INPUT                                       -p tcp -m multiport --dports 6817,6818      -j ACCEPT
+```
