@@ -7,8 +7,17 @@
   - name: Include slurm config recipe
     include: "config_file.yaml"
 
-  - name: Start Slurm Daemon
-    command: slurmd
+  - name: Start Slurm Daemon in worker node
+    service:
+      name: slurmd
+      enabled: yes
+      state: restarted
+
+  - name: Ensure slurmctld is not running in worker node
+    service:
+      name: slurmctld
+      enabled: no
+      state: stopped
 
   - name: Reconfigure SLURM
     command: scontrol reconfigure

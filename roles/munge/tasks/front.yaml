@@ -25,4 +25,4 @@
     when: not munge_key.stat.exists or munge_key_password != ''
 
   - name: Start munge service
-    service: name=munge state=started
+    service: name=munge enabled=yes state=started
