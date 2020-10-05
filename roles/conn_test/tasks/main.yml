@@ -1,0 +1,29 @@
+---
+  # some code parts taken from role ryandaniels.connectivity_test
+  # https://galaxy.ansible.com/ryandaniels/connectivity_test
+
+  - block:
+
+    - name: Install dependent packages in RedHat based machines
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+      - nc
+      when: ansible_os_family == "RedHat"
+
+    - debug:
+        msg:
+          - Test connectivity between slurm master {{ slurm_server_ip }} and worker node {{ inventory_hostname }}.
+        verbosity: 1
+
+    - name: Test connectivity slurm worker to master
+      command: "nc -zv {{ slurm_server_ip }} 6817"
+      delegate_to: "{{ inventory_hostname }}"
+
+    - name: Test connectivity slurm master to worker
+      command: "nc -zv {{ inventory_hostname }} 6818"
+      delegate_to: "{{ slurm_server_ip }}"
+    tags:
+      - slurm
+      - conn_test

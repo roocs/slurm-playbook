@@ -18,3 +18,10 @@
   roles:
     - name: slurm
       slurm_type_of_node: 'wn'
+  post_tasks:
+    - name: Test network connectivity
+      include_role:
+        name: conn_test
+      tags:
+        - slurm
+        - conn_test
