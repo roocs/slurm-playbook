@@ -20,4 +20,4 @@ slurmd_log: /var/log/slurm/slurmd.log
 
 # Flag to download remote RPMs
 download_remote_rpms: true
-rpm_base_url: http://home.badc.rl.ac.uk/astephens/rpms/
+rpm_base_url: http://gws-access.jasmin.ac.uk/public/cedaproc/rpms/

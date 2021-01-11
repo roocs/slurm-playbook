@@ -13,7 +13,7 @@
     when: (slow_node is not defined)
 
   - name: configure compute nodes section of slurm.conf
-    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{ nodes_csv }} CPUs={{slurm_wn_cpus}} State=UNKNOWN' state=present
+    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{ nodes_csv }} CPUs={{ slurm_wn_cpus }} State=UNKNOWN' state=present
 
   - name: configure partition section of slurm.conf - fast-only
     lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=fast Nodes={{ nodes_csv }} Default=YES MaxTime=INFINITE State=UP' state=present
