@@ -15,4 +15,5 @@ all:
     slurm_server_ip: '192.168.50.81'
     slurm_wn_nodenames: ['{{ slurm_server_name }}']
     etc_hosts_entries: ['192.168.50.81 slurmmaster slurmmaster.localdomain']
+    max_run_time: '23:59:59'
 

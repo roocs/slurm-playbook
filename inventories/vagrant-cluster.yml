@@ -20,4 +20,5 @@ all:
     etc_hosts_entries: ['192.168.50.44 slurmmaster slurmmaster.localdomain',
                         '192.168.50.45 slurmbatch1 slurmbatch1.localdomain',
                         '192.168.50.46 slurmbatch2 slurmbatch2.localdomain']
+    max_run_time: '23:59:59'
 
