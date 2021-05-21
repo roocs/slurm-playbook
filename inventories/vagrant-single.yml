@@ -10,7 +10,7 @@ all:
       hosts:
         192.168.50.44:
   vars:
-    slurm_wn_cpus: 1
+    slurm_wn_cpus: 2
     slurm_server_name: 'slurmmaster'
     slurm_server_ip: '192.168.50.44'
     slurm_wn_nodenames: ['{{ slurm_server_name }}']

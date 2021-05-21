@@ -15,4 +15,4 @@ all:
     slurm_server_ip: '136.172.60.84'
     slurm_wn_nodenames: ['{{ slurm_server_name }}']
     etc_hosts_entries: ['136.172.60.84 rook3 rook3.cloud.dkrz.de']
-
+    max_run_time: '23:59:59'

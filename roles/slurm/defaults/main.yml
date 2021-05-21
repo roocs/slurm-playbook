@@ -1,6 +1,6 @@
 ---
 # SLURM version to install (in case of RH systems)
-slurm_version: 16.05.11
+slurm_version: 19.05.5
 # Type of node to install: front or wn
 slurm_type_of_node: front
 # Name of the SLURM server
@@ -18,4 +18,5 @@ slurm_user_id: 5001
 templates: ""
 # Number of Maximun nodes
 max_number_of_nodes: 3
-
+# Max job run time
+max_run_time: INFINITE
