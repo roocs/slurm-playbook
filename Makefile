@@ -12,7 +12,7 @@ help:
 
 .PHONY: play
 play: roles
-	echo "Installing PyWPS application with Ansible [all tasks] ..."
+	echo "Installing slurm ..."
 	ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -c local -i custom.yml playbook.yml
 
 
