@@ -4,7 +4,7 @@
 slurm_version: 19.05.5
 
 # Number of CPUs per worker node
-slurm_wn_cpus: 12
+slurm_wn_cpus: 1
 
 # Default user for ssh and slurm management
 slurm_user: slurm
