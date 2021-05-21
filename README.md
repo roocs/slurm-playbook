@@ -43,6 +43,8 @@ squeue # to see if they are running/completing
 
 ## Test with vagrant file
 
+## Vagrant with cluster
+
 Use the `Vagrantfile` to setup up a cluster:
 
 ```
@@ -53,7 +55,7 @@ $ vagrant ssh slurmmaster
 
 ### Vagrant with single node
 
-Do do following:
+Use the `Vagrantfile` to setup up a single node on `slurmmaster`:
 
 ```
 $ vagrant up slurmmaster
