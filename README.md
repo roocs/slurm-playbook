@@ -51,7 +51,17 @@ $ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.v
 $ vagrant ssh slurmmaster
 ```
 
-## Firewall changes required 
+### Vagrant with single node
+
+Do do following:
+
+```
+$ vagrant up slurmmaster
+$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-single.yml playbook.yml
+$ vagrant ssh slurmmaster
+```
+
+## Firewall changes required
 
 If the firewall is not automatically opened in iptables then you will need these rules:
 
