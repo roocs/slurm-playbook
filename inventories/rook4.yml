@@ -1,0 +1,18 @@
+all:
+  children:
+    all_servers:
+      hosts:
+        136.172.60.158:
+    slurmserver:
+      hosts:
+        136.172.60.158:
+    slurmworker:
+      hosts:
+        136.172.60.158:
+  vars:
+    slurm_wn_cpus: 12
+    slurm_server_name: 'rook4'
+    slurm_server_ip: '136.172.60.158'
+    slurm_wn_nodenames: ['{{ slurm_server_name }}']
+    etc_hosts_entries: ['136.172.60.158 rook4 rook4.cloud.dkrz.de']
+

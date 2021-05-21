@@ -18,6 +18,7 @@
       name: slurmctld
       enabled: no
       state: stopped
+    when: false  # does not work on singel node
 
   - name: Reconfigure SLURM
     command: scontrol reconfigure
