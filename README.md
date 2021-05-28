@@ -6,12 +6,12 @@ Ansible playbook for Slurm
 
 Create an inventory file, copying structure of:
 
-`inventories/vagrant-single.yml`
+`cp inventories/vagrant-single.yml custom.yml`
 
 Run the playbook:
 
 ```
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventories/vagrant-single.yml playbook.yml
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
 ```
 
 ## Cluster installation
@@ -43,6 +43,8 @@ squeue # to see if they are running/completing
 
 ## Test with vagrant file
 
+## Vagrant with cluster
+
 Use the `Vagrantfile` to setup up a cluster:
 
 ```
@@ -51,7 +53,17 @@ $ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.v
 $ vagrant ssh slurmmaster
 ```
 
-## Firewall changes required 
+### Vagrant with single node
+
+Use the `Vagrantfile` to setup up a single node on `slurmmaster`:
+
+```
+$ vagrant up slurmmaster
+$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-single.yml playbook.yml
+$ vagrant ssh slurmmaster
+```
+
+## Firewall changes required
 
 If the firewall is not automatically opened in iptables then you will need these rules:
 
