@@ -9,6 +9,7 @@
   become: yes
   tags: slurm
   roles:
+    - name: common
     - name: slurm
       slurm_type_of_node: 'front'
 
@@ -16,5 +17,6 @@
   become: yes
   tags: slurm
   roles:
+    - name: common
     - name: slurm
       slurm_type_of_node: 'wn'

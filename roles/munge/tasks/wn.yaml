@@ -7,7 +7,7 @@
       owner: munge
       group: munge
       mode: '0400'
-    when: false   # does not apply on single node
+    when: on_cluster
 
   - name: Restart Munge service
     service: name=munge state=restarted

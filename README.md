@@ -6,7 +6,9 @@ Ansible playbook for Slurm
 
 Create an inventory file, copying structure of:
 
-`cp inventories/vagrant-single.yml custom.yml`
+```
+cp inventories/vagrant-single.yml custom.yml
+```
 
 Run the playbook:
 
@@ -18,8 +20,15 @@ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
 
 Create an inventory file, copying structure of:
 
-`inventories/vagrant-cluster.yml`
+```
+cp inventories/vagrant-cluster.yml custom.yml
+```
 
+Run the playbook:
+
+```
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
+```
 
 ## Note about Vagrant build
 
