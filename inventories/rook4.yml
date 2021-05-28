@@ -16,3 +16,4 @@ all:
     slurm_wn_nodenames: ['{{ slurm_server_name }}']
     etc_hosts_entries: ['136.172.60.158 rook4 rook4.cloud.dkrz.de']
     max_run_time: '23:59:59'
+    local_munge_key: /tmp/tmp_munge_key
