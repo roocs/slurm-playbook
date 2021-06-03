@@ -3,3 +3,7 @@
 munge_type_of_node: front
 # Password used to derive a munge key for authentication between the server and the workers
 munge_key_password: ''
+# Local path to copy across munge key to, so it can be copied from
+# the master server and then copied to the worker nodes
+local_munge_key: .local/cache/tmp_munge_key
+#local_munge_key: /tmp/tmp_munge_key

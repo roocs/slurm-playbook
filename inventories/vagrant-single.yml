@@ -2,18 +2,18 @@ all:
   children:
     all_servers:
       hosts:
-        192.168.50.81:
+        192.168.50.44:
     slurmserver:
       hosts:
-        192.168.50.81:
+        192.168.50.44:
     slurmworker:
       hosts:
-        192.168.50.81:
+        192.168.50.44:
   vars:
-    slurm_wn_cpus: 1
+    slurm_wn_cpus: 2
     slurm_server_name: 'slurmmaster'
-    slurm_server_ip: '192.168.50.81'
+    slurm_server_ip: '192.168.50.44'
     slurm_wn_nodenames: ['{{ slurm_server_name }}']
-    etc_hosts_entries: ['192.168.50.81 slurmmaster slurmmaster.localdomain']
+    etc_hosts_entries: ['192.168.50.44 slurmmaster slurmmaster.localdomain']
     max_run_time: '23:59:59'
-
+    on_cluster: false
