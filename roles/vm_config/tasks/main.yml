@@ -8,3 +8,11 @@
     - "{{ etc_hosts_entries }}"
   when:
     - (etc_hosts_entries is defined)
+
+- name: Set hostname of slurm server
+  hostname:
+    name: '{{ set_host_name }}'
+  when:
+    - (set_host_name is defined)
+
+
